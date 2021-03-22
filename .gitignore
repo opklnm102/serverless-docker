@@ -1,0 +1,7 @@
+.idea
+
+# Mac OS
+.DS_Store
+
+# Serverless directories
+.serverless
