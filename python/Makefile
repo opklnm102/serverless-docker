@@ -2,7 +2,7 @@
 
 SERVERLESS_VERSION ?= $(shell docker run --rm node:alpine npm show serverless version)
 IMAGE_NAME ?= opklnm102/serverless
-BASE_IMAGE=nikolaik/python-nodejs:python3.8-nodejs14
+BASE_IMAGE = nikolaik/python-nodejs:python3.8-nodejs14
 IMAGE = $(IMAGE_NAME):$(subst /,-,$(subst :,-,$(BASE_IMAGE)))-$(SERVERLESS_VERSION)
 
 all: release
