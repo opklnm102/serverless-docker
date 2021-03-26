@@ -28,5 +28,5 @@ env-%:
 	@docker run --rm -e ENV_VAR=$($*) node:alpine sh -c '[ -z "$$ENV_VAR" ] && echo "Error: $* is empty" && exit 1 || exit 0'
 
 tag:
-	git tag $(SERVERLESS_VERSION)
-	git push origin $(SERVERLESS_VERSION)
+	git tag $(IMAGE)
+	git push origin $(IMAGE)
