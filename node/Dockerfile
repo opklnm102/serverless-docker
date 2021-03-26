@@ -1,6 +1,5 @@
 ARG BASE_IMAGE=node:latest
 
-#FROM node:14.16.0
 FROM $BASE_IMAGE
 
 # SERVERLESS_VERSION is set explicitly in the Makefile used to build, otherwise use latest version
