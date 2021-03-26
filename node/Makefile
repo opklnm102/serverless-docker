@@ -2,14 +2,17 @@
 
 SERVERLESS_VERSION ?= $(shell docker run --rm node:alpine npm show serverless version)
 IMAGE_NAME ?= opklnm102/serverless
-IMAGE = $(IMAGE_NAME):$(SERVERLESS_VERSION)
+BASE_IMAGE=node:14.16.0
+IMAGE = $(IMAGE_NAME):$(subst :,-,$(BASE_IMAGE))-$(SERVERLESS_VERSION)
 
 all: release
 
 release: build push tag clean
 
-build: env-SERVERLESS_VERSION
-	docker build --build-arg SERVERLESS_VERSION=$(SERVERLESS_VERSION) -t $(IMAGE) .
+build: env-SERVERLESS_VERSION env-BASE_IMAGE
+	docker build --build-arg SERVERLESS_VERSION=$(SERVERLESS_VERSION) \
+                 --build-arg BASE_IMAGE=$(BASE_IMAGE) \
+                 -t $(IMAGE) .
 
 push:
 	docker push $(IMAGE)
