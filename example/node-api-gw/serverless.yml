@@ -1,0 +1,105 @@
+service: hello-node-apigw
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: 20201221
+  memorySize: 128
+  timeout: 10
+  versionFunctions: false
+  tracing:
+    apiGateway: false
+    lambda: false
+  stage: ${env:STAGE, 'dev'}
+  region: ap-xxx-xxx  # TODO: edit your region
+  stackTags:
+    Service: hello-node-apigw
+    Environment: ${self:provider.stage}
+  deploymentBucket:
+    blockPublicAccess: true
+    skipPolicySetup: true
+    name: your-bucket-name  # TODO: edit your bucket name
+    maxPreviousDeploymentArtifacts: 10
+  deploymentPrefix: serverless
+  iam:
+    role: arn:aws:iam::xxxxxxxxxxxxx:role/your-lambda-iam-role  # TODO: edit your iam role
+  logRetentionInDays: 14
+  logs:
+    restApi:
+      accessLogging: false
+      executionLogging: false
+      fullExecutionData: false
+      role: arn:aws:iam::xxxxxxxxxxxxx:role/your-lambda-iam-role  # TODO: edit your iam role
+      roleManagedExternally: true
+  endpointType: REGIONAL
+  apiGateway:
+    description: DailyHotel Service Status API
+    metrics:  false
+    shouldStartNameWithService: true
+
+useDotenv: true
+package:
+  exclude:
+    - package*.json
+    - Makefile
+    - docker-compose.yml
+    - .env
+
+plugins:
+  - serverless-domain-manager
+  - serverless-api-gateway-caching
+
+custom:
+  customDomain:
+    domainName: hello-node-apigw.opklnm102.me  # TODO: edit your domain name
+    basePath: ''
+    stage: ${self:provider.stage}
+    certificateName: '2021-03-22.opklnm102.me'  # TODO: edit your ACM name
+    createRoute53Record: false
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    apiType: rest
+    autoDomain: false
+  apiGatewayCaching:
+    enabled: true
+    clusterSize: '0.5'
+    ttlInSeconds: 300
+
+functions:
+  hello-node-apigw:
+    handler: handler.lambda_handler
+    name: hello-node-apigw-${self:provider.stage}
+    description: AWS lambda function with nodejs
+    events:
+      - http:
+          path: /
+          method: get
+          integration: lambda
+          response:
+            statusCodes:
+              200:
+                pattern: ''
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+            cacheControl: 'max-age=600, s-maxage=600, proxy-revalidate'
+    role: arn:aws:iam::xxxxxxxxxxxxx:role/your-lambda-iam-role  # TODO: edit your iam role
+    vpc:
+      securityGroupIds:
+        - sg-xxxxxxxxxxxxxxxx  # TODO: edit your security group id
+      subnetIds:
+        - subnet-xxxxxxxxxxxxxxxx  # TODO: edit your subnet id
+    tags:
+      Service: hello-node-apigw
+      Environment: ${self:provider.stage}
+    environment:
+      STAGE: ${self:provider.stage}
