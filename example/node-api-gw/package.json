@@ -1,0 +1,22 @@
+{
+  "name": "hello-node-apigw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "serverless-api-gateway-caching": "^1.6.0",
+    "serverless-domain-manager": "^5.1.0"
+  },
+  "dependencies": {}
+}

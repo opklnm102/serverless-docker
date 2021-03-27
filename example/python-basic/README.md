@@ -6,6 +6,26 @@
 
 <br>
 
+## Initialize
+* `sls create`로 serverless.yml 등의 boilerplate를 생성한다
+```sh
+$ make shell
+$ sls create -t aws-python3 -n [service name]
+```
+
+<br>
+
+### Install Plugin
+```sh
+$ make shell
+$ sls plugin install -n [plugin name]
+
+## example
+$ sls plugin install -n serverless-python-requirements
+```
+
+<br>
+
 ## Build
 * serverless framework로 AWS CloudFormation stack을 생성한다
 * `Dry Run`으로 사용할 수 있다

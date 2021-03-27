@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  serverless:
+    image: opklnm102/serverless:node-14.16.0-2.31.0
+    env_file: ${ENVFILE:-.env}
+    volumes:
+      - ~/.aws:/root/.aws
+      - .:/opt/app
