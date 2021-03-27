@@ -3,7 +3,8 @@
 SERVERLESS_VERSION ?= $(shell docker run --rm node:alpine npm show serverless version)
 IMAGE_NAME ?= opklnm102/serverless
 BASE_IMAGE = nikolaik/python-nodejs:python3.8-nodejs14
-IMAGE = $(IMAGE_NAME):$(subst /,-,$(subst :,-,$(BASE_IMAGE)))-$(SERVERLESS_VERSION)
+IMAGE_TAG = $(subst /,-,$(subst :,-,$(BASE_IMAGE)))-$(SERVERLESS_VERSION)
+IMAGE = $(IMAGE_NAME):$(IMAGE_TAG)
 
 all: release
 
@@ -28,5 +29,5 @@ env-%:
 	@docker run --rm -e ENV_VAR=$($*) node:alpine sh -c '[ -z "$$ENV_VAR" ] && echo "Error: $* is empty" && exit 1 || exit 0'
 
 tag:
-	git tag $(IMAGE)
-	git push origin $(IMAGE)
+	git tag $(IMAGE_TAG)
+	git push origin $(IMAGE_TAG)
