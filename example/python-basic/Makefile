@@ -39,6 +39,12 @@ deps:
 _deps:
 	npm install
 
+test-unit:
+	$(SERVERLESS_RUN) make _test-unit
+
+_test-unit:
+	python -m unittest discover -s tests
+
 test-local: deps
 	$(SERVERLESS_RUN) make _test-local
 

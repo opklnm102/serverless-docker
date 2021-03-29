@@ -45,6 +45,12 @@ $ make deploy
 <br>
 
 ## Testing
+
+### Unit Testing
+```sh
+$ make test-unit
+```
+
 ### Local Testing
 ```sh
 $ make test-local
