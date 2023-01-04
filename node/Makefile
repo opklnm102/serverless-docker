@@ -1,4 +1,4 @@
-.PHONY: all release build push clean shell env-% tag
+.PHONY: all release build push pull clean shell env-% tag
 
 SERVERLESS_VERSION ?= $(shell docker run --rm node:alpine npm show serverless version)
 IMAGE_NAME ?= opklnm102/serverless
@@ -14,9 +14,13 @@ build: env-SERVERLESS_VERSION env-BASE_IMAGE
 	docker build --build-arg SERVERLESS_VERSION=$(SERVERLESS_VERSION) \
                  --build-arg BASE_IMAGE=$(BASE_IMAGE) \
                  -t $(IMAGE) .
+	docker run --rm $(IMAGE) bash -c 'serverless --version | grep $(SERVERLESS_VERSION)'
 
 push:
 	docker push $(IMAGE)
+
+pull:
+	docker pull $(IMAGE)
 
 clean:
 	docker image rm -f $(IMAGE)
