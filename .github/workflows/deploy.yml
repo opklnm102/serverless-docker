@@ -1,11 +1,11 @@
-name: Deploy serverless app
+name: Deploy node-api-gw
 
 on:
   push:
     branches:
       - master
       - develop
-      - feature/*
+      - feature/node-api-gw*
 
 jobs:
   deploy:
@@ -14,6 +14,8 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
+    env:
+      working-directory: ./example/node-api-gw
 
     steps:
       - uses: actions/checkout@v3
@@ -21,11 +23,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
       - run: npm ci
+        working-directory: ${{ env.working-directory }}
       - name: serverless deploy
         uses: serverless/github-action@v3.1
         with:
           args: deploy --verbose
+        working-directory: ${{ env.working-directory }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
