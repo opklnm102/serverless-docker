@@ -1,10 +1,10 @@
 service: hello-node-apigw
 
-frameworkVersion: '2'
+frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs18.x
   lambdaHashingVersion: 20201221
   memorySize: 128
   timeout: 10
@@ -41,15 +41,15 @@ provider:
 
 useDotenv: true
 package:
-  exclude:
-    - package*.json
-    - Makefile
-    - docker-compose.yml
-    - .env
-
+  patterns:
+    - '!./**'
+    - 'index.js'
+    - 'package.json'
 plugins:
   - serverless-domain-manager
   - serverless-api-gateway-caching
+  - serverless-prune-plugin
+  - serverless-offline
 
 custom:
   customDomain:
@@ -66,16 +66,24 @@ custom:
     enabled: true
     clusterSize: '0.5'
     ttlInSeconds: 300
+  prune:
+    automatic: true
+    number: 5
+  serverless-offline:
+    httpPort: 3000
+    host: 0.0.0.0
 
 functions:
   hello-node-apigw:
-    handler: handler.lambda_handler
+    handler: index.handler
     name: hello-node-apigw-${self:provider.stage}
     description: AWS lambda function with nodejs
     events:
       - http:
           path: /
           method: get
+          caching:
+            enabled: true
           integration: lambda
           response:
             statusCodes:
