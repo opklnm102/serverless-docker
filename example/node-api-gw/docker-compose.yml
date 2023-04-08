@@ -3,7 +3,8 @@ version: "3.8"
 services:
   serverless:
     image: opklnm102/serverless:node-18.15.0-3.30.1
-    env_file: ${ENVFILE:-.env}
+    environment:
+      STAGE: dev
     volumes:
       - ~/.aws:/root/.aws
       - .:/opt/app

@@ -39,7 +39,6 @@ provider:
     metrics:  false
     shouldStartNameWithService: true
 
-useDotenv: true
 package:
   patterns:
     - '!./**'
