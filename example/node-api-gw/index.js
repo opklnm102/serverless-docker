@@ -7,7 +7,7 @@ export const handler = async (event, context) => {
                 input: event,
             },
             null,
-            2
+            3
         ),
     };
 }
