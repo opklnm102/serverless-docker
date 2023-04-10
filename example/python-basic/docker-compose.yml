@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   serverless:
-    image: opklnm102/serverless:nikolaik-python-nodejs-python3.8-nodejs14-2.31.0
+    image: opklnm102/serverless:python3.9-nodejs18-3.30.1
     env_file: ${ENVFILE:-.env}
     volumes:
       - ~/.aws:/root/.aws
